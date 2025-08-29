@@ -34,7 +34,7 @@
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
-            word-break: break-all; /* 强制内容换行 */
+            word-break: break-all;
         }
         
         .ip-list th {
@@ -57,10 +57,12 @@
         
         .players {
             color: #388e3c;
+            text-align: right;
         }
         
         .ping {
             color: #757575;
+            text-align: right;
         }
         
         .copy-notice {
@@ -89,7 +91,7 @@
             color: #757575;
             font-size: 0.85rem;
         }
-        
+
         /* 桌面端优化 */
         @media (min-width: 768px) {
             body {
@@ -105,10 +107,18 @@
                 padding: 12px 15px;
             }
             
-            /* 桌面端允许IP地址不换行 */
+            /* 桌面端禁止IP换行，保持紧凑 */
             .ip-address {
                 white-space: nowrap;
             }
+
+            /* 调整列宽 */
+            .ip-list th:nth-child(1),
+            .ip-list td:nth-child(1) { width: 70%; }
+            .ip-list th:nth-child(2),
+            .ip-list td:nth-child(2) { width: 15%; text-align: right; }
+            .ip-list th:nth-child(3),
+            .ip-list td:nth-child(3) { width: 15%; text-align: right; }
         }
     </style>
 </head>
@@ -119,9 +129,9 @@
     <table class="ip-list">
         <thead>
             <tr>
-                <th style="width: 45%;">服务器IP</th>
-                <th style="width: 25%;">在线</th>
-                <th style="width: 30%;">延迟</th>
+                <th>服务器IP</th>
+                <th>在线</th>
+                <th>延迟</th>
             </tr>
         </thead>
         <tbody id="serverList">
@@ -192,14 +202,14 @@
         // 页面加载完成后获取数据
         document.addEventListener('DOMContentLoaded', fetchServerList);
 
-		//百度统计
-		var _hmt = _hmt || [];
-		(function() {
-		  var hm = document.createElement("script");
-		  hm.src = "https://hm.baidu.com/hm.js?5fbc73364eedf951dd25fdb62e476520";
-		  var s = document.getElementsByTagName("script")[0]; 
-		  s.parentNode.insertBefore(hm, s);
-		})();
+        // 百度统计
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?5fbc73364eedf951dd25fdb62e476520";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
     </script>
 </body>
 </html>
