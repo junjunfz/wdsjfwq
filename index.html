@@ -34,7 +34,6 @@
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
-            word-break: break-all;
         }
         
         .ip-list th {
@@ -48,6 +47,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: color 0.2s;
+            word-break: break-all; /* IP地址可以换行 */
         }
         
         .ip-address:hover {
@@ -55,14 +55,17 @@
             text-decoration: underline;
         }
         
+        .players, .ping {
+            white-space: nowrap; /* 禁止在线和延迟换行 */
+            text-align: right;
+        }
+        
         .players {
             color: #388e3c;
-            text-align: right;
         }
         
         .ping {
             color: #757575;
-            text-align: right;
         }
         
         .copy-notice {
@@ -107,18 +110,19 @@
                 padding: 12px 15px;
             }
             
-            /* 桌面端禁止IP换行，保持紧凑 */
+            /* 桌面端IP地址不换行 */
             .ip-address {
                 white-space: nowrap;
+                word-break: normal;
             }
 
             /* 调整列宽 */
             .ip-list th:nth-child(1),
-            .ip-list td:nth-child(1) { width: 70%; }
+            .ip-list td:nth-child(1) { width: 60%; }
             .ip-list th:nth-child(2),
-            .ip-list td:nth-child(2) { width: 15%; text-align: right; }
+            .ip-list td:nth-child(2) { width: 20%; }
             .ip-list th:nth-child(3),
-            .ip-list td:nth-child(3) { width: 15%; text-align: right; }
+            .ip-list td:nth-child(3) { width: 20%; }
         }
     </style>
 </head>
@@ -175,7 +179,7 @@
             servers.forEach(server => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td class="ip-address" onclick="copyIP('${server.ip}')">${server.ip}</td>
+                    <td><span class="ip-address" onclick="copyIP('${server.ip}')">${server.ip}</span></td>
                     <td class="players">${server.p}</td>
                     <td class="ping">${server.ping}ms</td>
                 `;
