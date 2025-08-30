@@ -2,23 +2,23 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-	<title>我的世界服务器IP列表 - 快速加入优质我的世界服务器</title>
+    <title>优质游戏服务器IP列表 - 快速加入热门游戏服务器</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="最新我的世界服务器IP列表，一键复制我的世界IP地址，快速加入优质我的世界服务器。">
-    <meta name="keywords" content="我的世界服务器,我的世界IP,Minecraft服务器IP,MC服务器地址">
-    <meta property="og:title" content="我的世界服务器IP列表 - 快速加入优质我的世界服务器">
-    <meta property="og:description" content="最新我的世界服务器IP列表，一键复制我的世界IP地址，快速加入优质我的世界服务器。">
+    <meta name="description" content="最新游戏服务器IP列表，一键复制服务器IP地址，快速加入优质游戏服务器。">
+    <meta name="keywords" content="游戏服务器,服务器IP,游戏服务器IP,服务器地址">
+    <meta property="og:title" content="优质游戏服务器IP列表 - 快速加入热门游戏服务器">
+    <meta property="og:description" content="最新游戏服务器IP列表，一键复制服务器IP地址，快速加入优质游戏服务器。">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.wdsjfwq.cn">
+    <meta property="og:url" content="https://www.yxserver.cn">
     <meta property="og:image" content="server.gif"> 
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">	
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">	
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "我的世界服务器IP列表",
+        "name": "游戏服务器IP列表",
         "url": "<?= htmlspecialchars('https://'.$_SERVER['HTTP_HOST']) ?>",
-        "description": "最新我的世界服务器IP列表，一键复制我的世界IP地址，快速加入优质我的世界服务器。"
+        "description": "最新游戏服务器IP列表，一键复制服务器IP地址，快速加入优质游戏服务器。"
     }
     </script>	
     <style>
@@ -56,13 +56,44 @@
             font-weight: 600;
         }
         
+        .server-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .server-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            object-fit: cover;
+            border: 1px solid #e0e0e0;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .server-logo.initials {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+        }
+        
+        .server-name {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
         .ip-address {
             font-family: Consolas, monospace;
             color: #1a73e8;
             cursor: pointer;
-            font-weight: bold;
             transition: color 0.2s;
-            word-break: break-all; /* IP地址可以换行 */
+            word-break: break-all;
+            font-size: 0.9rem;
         }
         
         .ip-address:hover {
@@ -71,7 +102,7 @@
         }
         
         .players, .ping {
-            white-space: nowrap; /* 禁止在线和延迟换行 */
+            white-space: nowrap;
             text-align: right;
         }
         
@@ -125,7 +156,11 @@
                 padding: 12px 15px;
             }
             
-            /* 桌面端IP地址不换行 */
+            .server-logo {
+                width: 48px;
+                height: 48px;
+            }
+            
             .ip-address {
                 white-space: nowrap;
                 word-break: normal;
@@ -142,13 +177,13 @@
     </style>
 </head>
 <body>
-    <h1>我的世界服务器IP列表</h1>
+    <h1>优质游戏服务器IP列表</h1>
     <div class="copy-notice" id="copyNotice">IP已复制</div>
     
     <table class="ip-list">
         <thead>
             <tr>
-                <th>服务器IP</th>
+                <th>服务器</th>
                 <th>在线</th>
                 <th>延迟</th>
             </tr>
@@ -161,7 +196,7 @@
     </table>
 
     <footer>
-        <p>点击IP地址即可复制 © <span id="currentYear"></span> MC服务器IP列表</p>
+        <p>点击IP地址即可复制 © <span id="currentYear"></span> 游戏服务器IP列表</p>
     </footer>
 
     <script>
@@ -181,6 +216,19 @@
             }
         }
 
+        // 生成服务器名称的首字母缩写
+        function getInitials(name) {
+            if (!name) return '?';
+            const words = name.split(' ');
+            let initials = '';
+            for (let i = 0; i < Math.min(2, words.length); i++) {
+                if (words[i].length > 0) {
+                    initials += words[i][0].toUpperCase();
+                }
+            }
+            return initials || '?';
+        }
+
         // 渲染服务器列表
         function renderServerList(servers) {
             const tbody = document.getElementById('serverList');
@@ -193,12 +241,48 @@
 
             servers.forEach(server => {
                 const row = document.createElement('tr');
+                const serverName = server.name || server.ip.split('.')[0] || '游戏服务器';
+                const initials = getInitials(serverName);
+                
                 row.innerHTML = `
-                    <td><span class="ip-address" onclick="copyIP('${server.ip}')">${server.ip}</span></td>
+                    <td>
+                        <div class="server-info">
+                            <div class="server-logo initials" id="logo-${server.ip.replace(/\./g, '-')}">
+                                ${initials}
+                            </div>
+                            <div>
+                                <div class="server-name">${serverName}</div>
+                                <span class="ip-address" onclick="copyIP('${server.ip}')">${server.ip}</span>
+                            </div>
+                        </div>
+                    </td>
                     <td class="players">${server.p}</td>
                     <td class="ping">${server.ping}ms</td>
                 `;
                 tbody.appendChild(row);
+
+                // 尝试加载logo，如果失败则保留首字母显示
+                if (server.logo) {
+                    const img = new Image();
+                    img.src = server.logo;
+                    img.onload = function() {
+                        const logoDiv = document.getElementById(`logo-${server.ip.replace(/\./g, '-')}`);
+                        logoDiv.innerHTML = '';
+                        logoDiv.classList.remove('initials');
+                        logoDiv.style.background = 'none';
+                        const imgElem = document.createElement('img');
+                        imgElem.src = server.logo;
+                        imgElem.alt = serverName;
+                        imgElem.style.width = '100%';
+                        imgElem.style.height = '100%';
+                        imgElem.style.objectFit = 'cover';
+                        imgElem.style.borderRadius = '4px';
+                        logoDiv.appendChild(imgElem);
+                    };
+                    img.onerror = function() {
+                        // 保持首字母显示
+                    };
+                }
             });
         }
 
