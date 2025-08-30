@@ -2,12 +2,12 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>我的世界服务器IP列表 - 快速加入热门游戏服务器</title>
+    <title>我的世界服务器IP列表 - 快速加入热门我的世界服务器</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="我的世界最新服务器IP列表，一键复制我的世界服务器IP地址，快速加入优质我的世界服务器。">
+    <meta name="description" content="我的世界服务器IP列表，一键复制我的世界服务器IP地址，快速加入优质我的世界服务器。">
     <meta name="keywords" content="我的世界服务器,服务器IP,我的世界服务器IP,服务器地址">
-    <meta property="og:title" content="我的世界服务器IP列表 - 快速加入热门游戏服务器">
-    <meta property="og:description" content="我的世界最新服务器IP列表，一键复制我的世界服务器IP地址，快速加入优质我的世界服务器。">
+    <meta property="og:title" content="优质我的世界服务器IP列表 - 快速加入热门我的世界服务器">
+    <meta property="og:description" content="最新我的世界服务器IP列表，一键复制我的世界服务器IP地址，快速加入优质我的世界服务器。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.yxserver.cn">
     <meta property="og:image" content="server.gif"> 
@@ -37,6 +37,33 @@
             color: #2c3e50;
             margin: 15px 0 25px;
             font-size: 1.4rem;
+        }
+        
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .filter-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .filter-btn.active {
+            background-color: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
         }
         
         .ip-list {
@@ -82,9 +109,19 @@
             color: white;
         }
         
-        .server-name {
+        .server-info > div > div:first-child {
             font-weight: bold;
             margin-bottom: 3px;
+        }
+        
+        .server-tag {
+            display: inline-block;
+            padding: 2px 6px;
+            background-color: #e0f7fa;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #00838f;
+            margin-left: 6px;
         }
         
         .ip-address {
@@ -168,7 +205,7 @@
 
             /* 调整列宽 */
             .ip-list th:nth-child(1),
-            .ip-list td:nth-child(1) { width: 60%; }
+            .ip-list td:nth-child(1) { width: 50%; }
             .ip-list th:nth-child(2),
             .ip-list td:nth-child(2) { width: 20%; }
             .ip-list th:nth-child(3),
@@ -179,6 +216,18 @@
 <body>
     <h1>我的世界服务器IP列表</h1>
     <div class="copy-notice" id="copyNotice">IP已复制</div>
+    
+    <div class="filter-container" id="filterContainer">
+        <div class="filter-btn active" data-type="all">全部</div>
+        <div class="filter-btn" data-type="生存">生存</div>
+        <div class="filter-btn" data-type="空岛">空岛</div>
+        <div class="filter-btn" data-type="创造">创造</div>
+        <div class="filter-btn" data-type="小游戏">小游戏</div>
+        <div class="filter-btn" data-type="养老">养老</div>
+        <div class="filter-btn" data-type="PVP">PVP</div>
+        <div class="filter-btn" data-type="公益">公益</div>
+        <div class="filter-btn" data-type="RPG">RPG</div>
+    </div>
     
     <table class="ip-list">
         <thead>
@@ -203,17 +252,44 @@
         // 设置当前年份
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
+        // 当前选中的服务器类型
+        let currentType = 'all';
+        let allServers = [];
+
         // 从API获取服务器数据
-        async function fetchServerList() {
+        async function fetchServerList(type) {
             try {
-                const response = await fetch('https://list.mczfw.cn/api');
+                const apiUrl = type === 'all' 
+                    ? 'https://list.mczfw.cn/wdapi/' 
+                    : `https://list.mczfw.cn/wdapi/${type}`;
+                
+                document.getElementById('serverList').innerHTML = 
+                    '<tr class="loading"><td colspan="3">正在加载服务器列表...</td></tr>';
+                
+                const response = await fetch(apiUrl);
                 const servers = await response.json();
-                renderServerList(servers);
+                
+                if (type === 'all') {
+                    allServers = servers;
+                }
+                
+                renderServerList(servers, type);
             } catch (error) {
                 console.error('获取服务器列表失败:', error);
                 document.getElementById('serverList').innerHTML = 
                     '<tr><td colspan="3" style="color: #e74c3c;">加载服务器列表失败，请稍后重试</td></tr>';
             }
+        }
+
+        // 筛选服务器
+        function filterServers(type) {
+            currentType = type;
+            fetchServerList(type);
+            
+            // 更新筛选按钮状态
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === type);
+            });
         }
 
         // 生成服务器名称的首字母缩写
@@ -230,19 +306,20 @@
         }
 
         // 渲染服务器列表
-        function renderServerList(servers) {
+        function renderServerList(servers, type) {
             const tbody = document.getElementById('serverList');
             tbody.innerHTML = '';
 
             if (servers.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="3">暂无服务器数据</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="3">暂无${type === 'all' ? '' : type}服务器数据</td></tr>`;
                 return;
             }
 
             servers.forEach(server => {
                 const row = document.createElement('tr');
-                const serverName = server.name || server.ip.split('.')[0] || '我的世界服务器';
+                const serverName = server.name || server.ip.split('.')[0] || '游戏服务器';
                 const initials = getInitials(serverName);
+                const serverType = type === 'all' ? (server.type || '') : type;
                 
                 row.innerHTML = `
                     <td>
@@ -251,7 +328,7 @@
                                 ${initials}
                             </div>
                             <div>
-                                <div class="server-name">${serverName}</div>
+                                <div>${serverName}${serverType ? `<span class="server-tag">${serverType}</span>` : ''}</div>
                                 <span class="ip-address" onclick="copyIP('${server.ip}')">${server.ip}</span>
                             </div>
                         </div>
@@ -303,7 +380,14 @@
         }
 
         // 页面加载完成后获取数据
-        document.addEventListener('DOMContentLoaded', fetchServerList);
+        document.addEventListener('DOMContentLoaded', () => fetchServerList('all'));
+
+        // 绑定筛选按钮点击事件
+        document.getElementById('filterContainer').addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                filterServers(e.target.dataset.type);
+            }
+        });
 
         // 百度统计
         var _hmt = _hmt || [];
