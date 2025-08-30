@@ -2,12 +2,12 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>优质游戏服务器IP列表 - 快速加入热门游戏服务器</title>
+    <title>我的世界服务器IP列表 - 快速加入热门游戏服务器</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="最新游戏服务器IP列表，一键复制服务器IP地址，快速加入优质游戏服务器。">
-    <meta name="keywords" content="游戏服务器,服务器IP,游戏服务器IP,服务器地址">
-    <meta property="og:title" content="优质游戏服务器IP列表 - 快速加入热门游戏服务器">
-    <meta property="og:description" content="最新游戏服务器IP列表，一键复制服务器IP地址，快速加入优质游戏服务器。">
+    <meta name="description" content="我的世界最新服务器IP列表，一键复制我的世界服务器IP地址，快速加入优质我的世界服务器。">
+    <meta name="keywords" content="我的世界服务器,服务器IP,我的世界服务器IP,服务器地址">
+    <meta property="og:title" content="我的世界服务器IP列表 - 快速加入热门游戏服务器">
+    <meta property="og:description" content="我的世界最新服务器IP列表，一键复制我的世界服务器IP地址，快速加入优质我的世界服务器。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.yxserver.cn">
     <meta property="og:image" content="server.gif"> 
@@ -16,9 +16,9 @@
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "游戏服务器IP列表",
+        "name": "我的世界服务器IP列表",
         "url": "<?= htmlspecialchars('https://'.$_SERVER['HTTP_HOST']) ?>",
-        "description": "最新游戏服务器IP列表，一键复制服务器IP地址，快速加入优质游戏服务器。"
+        "description": "最新我的世界服务器IP列表，一键复制我的世界服务器IP地址，快速加入优质我的世界服务器。"
     }
     </script>	
     <style>
@@ -177,7 +177,7 @@
     </style>
 </head>
 <body>
-    <h1>优质游戏服务器IP列表</h1>
+    <h1>我的世界服务器IP列表</h1>
     <div class="copy-notice" id="copyNotice">IP已复制</div>
     
     <table class="ip-list">
@@ -196,7 +196,7 @@
     </table>
 
     <footer>
-        <p>点击IP地址即可复制 © <span id="currentYear"></span> 游戏服务器IP列表</p>
+        <p>点击IP地址即可复制 © <span id="currentYear"></span> 我的世界服务器IP列表</p>
     </footer>
 
     <script>
@@ -241,7 +241,7 @@
 
             servers.forEach(server => {
                 const row = document.createElement('tr');
-                const serverName = server.name || server.ip.split('.')[0] || '游戏服务器';
+                const serverName = server.name || server.ip.split('.')[0] || '我的世界服务器';
                 const initials = getInitials(serverName);
                 
                 row.innerHTML = `
