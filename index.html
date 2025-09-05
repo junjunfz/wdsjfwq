@@ -75,7 +75,7 @@
             width: 100%;
             border-collapse: collapse;
             margin: 15px 0;
-            table-layout: fixed; /* 固定表格布局防止抖动 */
+            table-layout: fixed;
         }
         
         .ip-list th, .ip-list td {
@@ -190,9 +190,22 @@
         
         footer {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
             color: #757575;
             font-size: 0.85rem;
+            padding: 15px 0;
+            border-top: 1px solid #e0e0e0;
+            background-color: #fafafa;
+        }
+
+        footer a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
 
         @media (min-width: 768px) {
@@ -225,6 +238,33 @@
             .ip-list td:nth-child(2) { width: 20%; }
             .ip-list th:nth-child(3),
             .ip-list td:nth-child(3) { width: 20%; }
+        }
+
+        /* 返回页顶按钮样式 */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        #backToTop:hover {
+            background-color: #1557b0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(26, 115, 232, 0.6);
         }
     </style>
 </head>
@@ -265,9 +305,32 @@
         <p>点击IP地址即可复制 © <span id="currentYear"></span> 我的世界服务器IP列表</p>
     </footer>
 
+    <!-- 返回页顶按钮 -->
+    <div id="backToTop" onclick="scrollToTop()">
+        ↑
+    </div>
+
     <script>
         // 设置当前年份
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // 返回顶部功能
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // 监听滚动，控制返回顶部按钮显示/隐藏
+        window.addEventListener('scroll', function() {
+            var backToTopBtn = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
 
         // 当前选中的服务器类型
         let currentType = 'all';
