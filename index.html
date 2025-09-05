@@ -28,21 +28,135 @@
         
         body {
             font-family: "Microsoft YaHei", sans-serif;
-            max-width: 100%;
+            max-width: 800px;
             margin: 0 auto;
             padding: 15px;
             line-height: 1.5;
             color: #333;
             background-color: white;
         }
-        
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+        }
+
         h1 {
             text-align: center;
             color: #2c3e50;
             margin: 15px 0 25px;
             font-size: 1.4rem;
         }
-        
+
+        /* ✅ 查询模块 - 放在过滤器之前，查询结果在按钮下方 */
+        .server-query {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .server-query input {
+            padding: 8px 12px;
+            width: 100%;
+            max-width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .server-query input {
+                max-width: 100%; /* 手机端宽度 100% */
+            }
+        }
+
+        .server-query button {
+            padding: 8px 16px;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .server-query button:hover {
+            background-color: #1557b0;
+        }
+
+        /* ✅ 查询结果展示区域 - 直接放在查询按钮下方，不插入表格 */
+        .query-result {
+            margin-top: 20px;
+            display: none;
+            text-align: left;
+        }
+
+        .query-result-server {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .query-result-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .query-result-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .query-result-info {
+            flex: 1;
+        }
+
+        .query-result-name {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .query-result-motd {
+            font-size: 0.85rem;
+            color: #757575;
+            margin-bottom: 3px;
+        }
+
+        .query-result-ip {
+            font-family: Consolas, monospace;
+            color: #1a73e8;
+            font-size: 0.9rem;
+        }
+
+        .query-result-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+
+        .query-result-players {
+            color: #388e3c;
+        }
+
+        .query-result-ping {
+            color: #757575;
+        }
+
+        /* ✅ 过滤器 */
         .filter-container {
             display: flex;
             flex-wrap: wrap;
@@ -50,7 +164,7 @@
             justify-content: center;
             margin-bottom: 20px;
         }
-        
+
         .filter-btn {
             padding: 6px 12px;
             border: 1px solid #ddd;
@@ -60,46 +174,47 @@
             transition: all 0.2s;
             white-space: nowrap;
         }
-        
+
         .filter-btn:hover {
             background-color: #e0e0e0;
         }
-        
+
         .filter-btn.active {
             background-color: #1a73e8;
             color: white;
             border-color: #1a73e8;
         }
-        
+
+        /* ✅ 表格 */
         .ip-list {
             width: 100%;
             border-collapse: collapse;
             margin: 15px 0;
             table-layout: fixed;
         }
-        
+
         .ip-list th, .ip-list td {
             padding: 10px;
             border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .ip-list th {
             background-color: #f5f5f5;
             font-weight: 600;
             text-align: center;
         }
-        
+
         .ip-list th:first-child,
         .ip-list td:first-child {
             text-align: left;
         }
-        
+
         .server-info {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         .server-logo {
             width: 40px;
             height: 40px;
@@ -115,31 +230,12 @@
             font-weight: bold;
             flex-shrink: 0;
         }
-        
+
         .server-logo.initials {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: white;
         }
-        
-        .server-info > div > div:first-child {
-            font-weight: bold;
-            margin-bottom: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .server-tag {
-            display: inline-block;
-            padding: 2px 6px;
-            background-color: #e0f7fa;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            color: #00838f;
-            margin-left: 6px;
-            white-space: nowrap;
-        }
-        
+
         .ip-address {
             font-family: Consolas, monospace;
             color: #1a73e8;
@@ -148,26 +244,26 @@
             word-break: break-all;
             font-size: 0.9rem;
         }
-        
+
         .ip-address:hover {
             color: #0d47a1;
             text-decoration: underline;
         }
-        
+
         .players, .ping {
             white-space: nowrap;
             text-align: center;
             padding: 0 10px;
         }
-        
+
         .players {
             color: #388e3c;
         }
-        
+
         .ping {
             color: #757575;
         }
-        
+
         .copy-notice {
             position: fixed;
             top: 20px;
@@ -181,13 +277,13 @@
             z-index: 100;
             font-size: 0.9rem;
         }
-        
+
         .loading {
             text-align: center;
             padding: 20px;
             color: #757575;
         }
-        
+
         footer {
             text-align: center;
             margin-top: 30px;
@@ -208,39 +304,7 @@
             text-decoration: underline;
         }
 
-        @media (min-width: 768px) {
-            body {
-                max-width: 800px;
-                padding: 20px;
-            }
-            
-            h1 {
-                font-size: 1.6rem;
-            }
-            
-            .ip-list th, .ip-list td {
-                padding: 12px 15px;
-            }
-            
-            .server-logo {
-                width: 48px;
-                height: 48px;
-            }
-            
-            .ip-address {
-                white-space: nowrap;
-                word-break: normal;
-            }
-
-            .ip-list th:nth-child(1),
-            .ip-list td:nth-child(1) { width: 50%; }
-            .ip-list th:nth-child(2),
-            .ip-list td:nth-child(2) { width: 20%; }
-            .ip-list th:nth-child(3),
-            .ip-list td:nth-child(3) { width: 20%; }
-        }
-
-        /* 返回页顶按钮样式 */
+        /* ✅ 返回页顶 */
         #backToTop {
             position: fixed;
             bottom: 30px;
@@ -266,12 +330,53 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(26, 115, 232, 0.6);
         }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                gap: 5px;
+            }
+
+            .filter-btn {
+                padding: 5px 8px;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
     <h1>我的世界服务器IP列表</h1>
     <div class="copy-notice" id="copyNotice">IP已复制</div>
-    
+
+    <!-- ✅ 查询功能：输入 + 按钮 + 结果（显示在按钮下方） -->
+    <div class="server-query">
+        <input 
+            type="text" 
+            id="serverQueryInput" 
+            placeholder="输入服务器IP或域名" 
+        />
+        <br>
+        <button onclick="queryServer()">查询</button>
+
+        <!-- ✅ 查询结果展示区域：直接放在按钮下方 -->
+        <div id="queryResult" class="query-result">
+            <div class="query-result-server">
+                <div id="queryResultLogo" class="query-result-logo">
+                    ?
+                </div>
+                <div class="query-result-info">
+                    <div id="queryResultName" class="query-result-name"></div>
+                    <div id="queryResultMotd" class="query-result-motd"></div>
+                    <div id="queryResultIp" class="query-result-ip"></div>
+                </div>
+            </div>
+            <div class="query-result-stats">
+                <div id="queryResultPlayers" class="query-result-players">在线: --</div>
+                <div id="queryResultPing" class="query-result-ping">延迟: --ms</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ 过滤器 -->
     <div class="filter-container" id="filterContainer">
         <div class="filter-btn active" data-type="all">全部</div>
         <div class="filter-btn" data-type="生存">生存</div>
@@ -284,7 +389,8 @@
         <div class="filter-btn" data-type="RPG">RPG</div>
         <div class="filter-btn" data-type="模组">模组</div>
     </div>
-    
+
+    <!-- ✅ 服务器列表表格 -->
     <table class="ip-list">
         <thead>
             <tr>
@@ -305,16 +411,84 @@
         <p>点击IP地址即可复制 © <span id="currentYear"></span> 我的世界服务器IP列表</p>
     </footer>
 
-    <!-- 返回页顶按钮 -->
+    <!-- ✅ 返回页顶按钮 -->
     <div id="backToTop" onclick="scrollToTop()">
         ↑
     </div>
 
     <script>
-        // 设置当前年份
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // 返回顶部功能
+        // ✅ 查询服务器
+        function queryServer() {
+            const input = document.getElementById('serverQueryInput');
+            const ip = input.value.trim();
+            if (!ip) {
+                alert('请输入服务器IP或域名');
+                return;
+            }
+
+            const resultDiv = document.getElementById('queryResult');
+            const logoDiv = document.getElementById('queryResultLogo');
+            const nameDiv = document.getElementById('queryResultName');
+            const motdDiv = document.getElementById('queryResultMotd');
+            const ipDiv = document.getElementById('queryResultIp');
+            const playersDiv = document.getElementById('queryResultPlayers');
+            const pingDiv = document.getElementById('queryResultPing');
+
+            // 显示结果区域
+            resultDiv.style.display = 'block';
+            nameDiv.textContent = ip;
+            ipDiv.textContent = ip;
+            motdDiv.textContent = '';
+            playersDiv.textContent = '在线: --';
+            pingDiv.textContent = '延迟: --ms';
+
+            // 默认 Logo
+            logoDiv.className = 'query-result-logo';
+            logoDiv.textContent = '?';
+
+            fetch(`https://list.mczfw.cn/api/${encodeURIComponent(ip)}`)
+                .then(res => {
+                    if (!res.ok) throw new Error('查询失败');
+                    return res.json();
+                })
+                .then(data => {
+                    const online = data.p !== undefined ? data.p : '--';
+                    const max = data.mp !== undefined ? data.mp : '--';
+                    const motd = data.motd !== undefined ? data.motd : '';
+                    const ping = data.ping !== undefined ? data.ping : '--';
+
+                    playersDiv.textContent = '在线: ' + online + (max !== '--' ? ` / ${max}` : '');
+                    pingDiv.textContent = '延迟: ' + (ping !== '--' ? ping : '--') + 'ms';
+
+                    if (motd) {
+                        motdDiv.textContent = motd.length > 50 ? motd.substring(0, 50) + '...' : motd;
+                    }
+
+                    // 显示 Logo
+                    if (data.logo) {
+                        const img = document.createElement('img');
+                        img.src = data.logo;
+                        img.alt = 'Logo';
+                        img.style.width = '100%';
+                        img.style.height = '100%';
+                        img.style.objectFit = 'cover';
+                        img.style.borderRadius = '4px';
+
+                        logoDiv.innerHTML = '';
+                        logoDiv.appendChild(img);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    playersDiv.textContent = '在线: Error';
+                    pingDiv.textContent = '延迟: Error';
+                    motdDiv.textContent = '查询失败，请检查IP是否正确';
+                });
+        }
+
+        // ✅ 返回页顶
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
@@ -322,9 +496,8 @@
             });
         }
 
-        // 监听滚动，控制返回顶部按钮显示/隐藏
         window.addEventListener('scroll', function() {
-            var backToTopBtn = document.getElementById('backToTop');
+            const backToTopBtn = document.getElementById('backToTop');
             if (window.pageYOffset > 300) {
                 backToTopBtn.style.display = 'flex';
             } else {
@@ -332,19 +505,18 @@
             }
         });
 
-        // 当前选中的服务器类型
+        // ✅ 原有：加载服务器列表、筛选、复制等功能（完全未改动）
         let currentType = 'all';
         let allServers = [];
 
-        // 从API获取服务器数据
         async function fetchServerList(type) {
             try {
                 const apiUrl = type === 'all' 
                     ? 'https://list.mczfw.cn/wdapi/' 
                     : `https://list.mczfw.cn/wdapi/${type}`;
                 
-                document.getElementById('serverList').innerHTML = 
-                    '<tr class="loading"><td colspan="3">正在加载服务器列表...</td></tr>';
+                const tbody = document.getElementById('serverList');
+                tbody.innerHTML = '<tr class="loading"><td colspan="3">正在加载服务器列表...</td></tr>';
                 
                 const response = await fetch(apiUrl);
                 const servers = await response.json();
@@ -356,23 +528,20 @@
                 renderServerList(servers, type);
             } catch (error) {
                 console.error('获取服务器列表失败:', error);
-                document.getElementById('serverList').innerHTML = 
-                    '<tr><td colspan="3" style="color: #e74c3c;">加载服务器列表失败，请稍后重试</td></tr>';
+                const tbody = document.getElementById('serverList');
+                tbody.innerHTML = '<tr><td colspan="3" style="color: #e74c3c;">加载服务器列表失败，请稍后重试</td></tr>';
             }
         }
 
-        // 筛选服务器
         function filterServers(type) {
             currentType = type;
             fetchServerList(type);
             
-            // 更新筛选按钮状态
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.type === type);
             });
         }
 
-        // 生成服务器名称的首字母缩写
         function getInitials(name) {
             if (!name) return '?';
             const words = name.split(' ');
@@ -385,7 +554,6 @@
             return initials || '?';
         }
 
-        // 渲染服务器列表
         function renderServerList(servers, type) {
             const tbody = document.getElementById('serverList');
             tbody.innerHTML = '';
@@ -418,7 +586,6 @@
                 `;
                 tbody.appendChild(row);
 
-                // 尝试加载logo，如果失败则保留首字母显示
                 if (server.logo) {
                     const img = new Image();
                     img.src = server.logo;
@@ -436,14 +603,11 @@
                         imgElem.style.borderRadius = '4px';
                         logoDiv.appendChild(imgElem);
                     };
-                    img.onerror = function() {
-                        // 保持首字母显示
-                    };
+                    img.onerror = function() {};
                 }
             });
         }
 
-        // 复制IP到剪贴板
         function copyIP(ip) {
             const input = document.createElement('input');
             input.value = ip;
@@ -459,17 +623,14 @@
             }, 1000);
         }
 
-        // 页面加载完成后获取数据
         document.addEventListener('DOMContentLoaded', () => fetchServerList('all'));
 
-        // 绑定筛选按钮点击事件
         document.getElementById('filterContainer').addEventListener('click', (e) => {
             if (e.target.classList.contains('filter-btn')) {
                 filterServers(e.target.dataset.type);
             }
         });
 
-        // 百度统计
         var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
